@@ -20,7 +20,7 @@ class Item{
 	
 	//methods
 	
-	public updateOwner(int soldPrice, User owner){
+	public void updateOwner(int soldPrice, User owner){
 		this.soldPrice = soldPrice;
 		this.owner = owner;
 	}
