@@ -1,16 +1,34 @@
 import java.util.Scanner;
+import java.util.Currency;
 import java.io.*;
 import java.net.*;
 
 
 class UserServer{
+	private static String ip;
+	private static int port;
+	private static Scanner sc = new Scanner(System.in);
+
+	
 	public static void main(String args[]) throws UnknownHostException, IOException{
-		Scanner sc = new Scanner(System.in);
-		Socket s = new Socket("127.0.0.1",8000);
-		Scanner sc2 = new Scanner(s.getInputStream());
-		PrintStream p = new PrintStream(s.getOutputStream());
-		String number = "5";
-		p.println(number);
+		enterServer();
+		goBid();
 		
+	}
+	
+	private static void enterServer(){
+		System.out.print("Enter server ip address:");
+		ip = sc.next();
+		System.out.print("Enter port:");
+		port = sc.nextInt();
+	}
+	
+	private static void goBid(){
+		String temp;
+		while(true){
+			temp = sc.next();
+			try {new SendMessage(ip,port,temp);}
+			catch(Exception e){e.printStackTrace();}
+		}
 	}
 }
