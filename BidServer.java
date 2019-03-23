@@ -8,9 +8,11 @@ class BidServer {
 	private Socket ss;
 	private InputStreamReader in;
 	private BufferedReader r;
-	public BidServer() throws IOException{
+	private static int port;
+	private ArrayList<User> NameList = new ArrayList<User>();
+	public BidServer(int port) throws IOException{
+		this.port = port;
 		setupServer();
-		System.out.println("End");
 	}
 	public void setupServer() throws IOException{
 		s1 = new ServerSocket(8000);
@@ -18,8 +20,25 @@ class BidServer {
 			ss = s1.accept();
 			in = new InputStreamReader (ss.getInputStream());
 			r = new BufferedReader(in);
-			String str = r.readLine();
-			System.out.println(str);
+			String t = r.readLine();
+			String[] str = t.split("\\|");
+			processMessage(str);
 		}
+	}
+	
+	private void processMessage(String[] message){
+		int code = Integer.parseInt(message[0]);
+		if(code==0){
+			addNameList(message);
+		}
+	}
+	
+	private void addNameList(String[] message){
+		User newUser = new User(message[1]);
+		newUser.UpdateInfo(message[2],Integer.parseInt(message[3]));
+		NameList.add(newUser);
+		System.out.println("-----[Server]-----");
+		System.out.println("Welcome "+ newUser.getName() + "!");
+		System.out.println("----------");
 	}
 }

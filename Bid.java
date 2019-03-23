@@ -1,11 +1,16 @@
 class Bid{
-	private String Name;
+	private User bider;
 	private int bidPrice;
 	private String itemName;
 	
-	public Bid(String Name, int bidPrice, String itemName){
-		this.Name = Name;
+	public Bid(User bider, int bidPrice/*, String itemName*/){
+		this.bider = bider;
 		this.bidPrice = bidPrice;
-		this.itemName = itemName;
+		/*this.itemName = itemName;*/
+	}
+	
+	public String convertToMessage(){
+		String message = bider.convertToMessage()+"|"+Integer.toString(bidPrice);
+		return message;
 	}
 }

@@ -9,6 +9,7 @@ class UserServer{
 	private static String ip;
 	private static int port;
 	private static Scanner sc = new Scanner(System.in);
+	private static User user;
 
 	
 	public static void main(String args[]) throws UnknownHostException, IOException{
@@ -27,22 +28,39 @@ class UserServer{
 			if(count!=0)fullName=fullName+"_"+temp;
 			count++;
 		}
-		System.out.println(fullName);
+		user = new User(fullName);
 	}
 	
 	private static void enterServer(){
-		System.out.print("Enter server ip address:");
+		System.out.print("Enter bidserver ip address:");
 		ip = sc.next();
-		System.out.print("Enter port:");
+		System.out.print("Enter bidserver port:");
 		port = sc.nextInt();
+		System.out.print("Enter own ip address:");
+		String userip = sc.next();
+		System.out.print("Enter own port:");
+		int userport = sc.nextInt();
+		user.UpdateInfo(userip,userport);
+		try {
+			new SendMessage(0,ip,port,user.convertToMessage());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private static void goBid(){
-		String temp;
+		String bidValue;
 		while(true){
-			temp = sc.nextLine();
-			try {new SendMessage(ip,port,temp);}
-			catch(Exception e){e.printStackTrace();}
+			bidValue = sc.next();
+			try{
+				Bid temp = new Bid(user,Integer.parseInt(bidValue));
+				try {new SendMessage(1,ip,port,temp.convertToMessage());}
+				catch(Exception e){e.printStackTrace();}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
 		}
 	}
 }

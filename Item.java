@@ -6,7 +6,7 @@ class Item{
 	private String Name;
 	private int minPrice;
 	private int soldPrice;
-	private User owner;
+	private User buyer;
 	public Item(int id, String Name){
 		this.id = id;
 		this.Name = Name;	
@@ -20,8 +20,8 @@ class Item{
 	
 	//methods
 	
-	public void updateOwner(int soldPrice, User owner){
+	public void updateBuyer(int soldPrice, User buyer){
 		this.soldPrice = soldPrice;
-		this.owner = owner;
+		this.buyer = buyer;
 	}
 }
