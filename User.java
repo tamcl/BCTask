@@ -1,6 +1,6 @@
 class User{
-	private int id;
-	private String Name;
+	private int id, port;
+	private String Name, ip;
 	
 	public User(int id, String Name){
 		this.id=id;
