@@ -56,7 +56,7 @@ class UserServer{
 			try{
 				Bid temp = new Bid(user,Integer.parseInt(bidValue));
 				try {new SendMessage(1,ip,port,temp.convertToMessage());}
-				catch(Exception e){e.printStackTrace();}
+				catch(Exception e){System.out.println("Please place a bid.");}
 			}catch(Exception e){
 				e.printStackTrace();
 			}

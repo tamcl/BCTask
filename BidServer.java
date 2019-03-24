@@ -30,6 +30,10 @@ class BidServer {
 		int code = Integer.parseInt(message[0]);
 		if(code==0){
 			addNameList(message);
+		}else if(code==1){
+			for(String M:message){
+				System.out.println(M);
+			}
 		}
 	}
 	
@@ -40,5 +44,9 @@ class BidServer {
 		System.out.println("-----[Server]-----");
 		System.out.println("Welcome "+ newUser.getName() + "!");
 		System.out.println("----------");
+	}
+	
+	private void bidItem(String[] message){
+		
 	}
 }
