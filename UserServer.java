@@ -10,12 +10,18 @@ class UserServer{
 	private static int port;
 	private static Scanner sc = new Scanner(System.in);
 	private static User user;
+	private static UserData data = new UserData();
+	private static ArrayList<Thread> thread = new ArrayList<Thread>();
 
 	
 	public static void main(String args[]) throws UnknownHostException, IOException{
 		enterPersonalData();
 		enterServer();
-		goBid();
+		thread.add(new Thread(new UserAcceptServer(user.getPort(),data)));
+		thread.add(new Thread(new UserBidServer(data,user,ip,port)));
+		for(Thread a: thread){
+			a.start();
+		}
 		
 	}
 	
@@ -47,20 +53,5 @@ class UserServer{
 			e.printStackTrace();
 		}
 		
-	}
-	
-	private static void goBid(){
-		String bidValue;
-		while(true){
-			bidValue = sc.next();
-			try{
-				Bid temp = new Bid(user,Integer.parseInt(bidValue));
-				try {new SendMessage(1,ip,port,temp.convertToMessage());}
-				catch(Exception e){System.out.println("Please place a bid.");}
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-			
-		}
 	}
 }

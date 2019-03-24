@@ -26,4 +26,12 @@ class User{
 		}
 		return returnName;
 	}
+	
+	public int getPort(){
+		return port;
+	}
+	
+	public String getIp(){
+		return ip;
+	}
 }
