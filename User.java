@@ -6,6 +6,13 @@ class User{
 		this.Name = Name;
 	}
 	
+	public User(String Name, String ip, int port){
+		this.Name = Name;
+		this.ip = ip;
+		this.port = port;
+		
+	}
+	
 	public void UpdateInfo(String ip, int port){
 		this.ip = ip;
 		this.port = port;

@@ -25,14 +25,30 @@ class UserBidServer implements Runnable{
 				Bid temp = new Bid(user,Integer.parseInt(bidValue));
 				try {
 					new SendMessage(1,ip,port,temp.convertToMessage());
-					data.addBid(temp);
 				}
 				catch(Exception e){e.printStackTrace();}
 			}catch(Exception e){
-				System.out.println("Please place a bid.");
+				switch(bidValue){
+					case "help":
+						helpPage();
+						break;
+					case "CItem":
+						CurrentItem();
+						break;
+				}
 			}
+		}
+	}
+	
+	private void helpPage(){
+		System.out.println("You got to the help page");
+	}
+	
+	private void CurrentItem(){
+		try{
+			new SendMessage(9,ip,port,user.convertToMessage());
+		}catch(Exception e){
 			
 		}
-		
 	}
 }

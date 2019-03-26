@@ -17,7 +17,7 @@ class UserServer{
 	public static void main(String args[]) throws UnknownHostException, IOException{
 		enterPersonalData();
 		enterServer();
-		thread.add(new Thread(new UserAcceptServer(user.getPort(),data)));
+		thread.add(new Thread(new UserAcceptServer(user.getPort(),data, user)));
 		thread.add(new Thread(new UserBidServer(data,user,ip,port)));
 		for(Thread a: thread){
 			a.start();

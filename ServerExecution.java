@@ -17,7 +17,10 @@ class ServerExecution{
 		}
 		System.out.println("Port: "+ port +" confirmed.");
 		BidServer bd = new BidServer();
-		thread.add(new Thread(new BidAcceptServer(port, bd)));
+		BidAcceptServer BAS = new BidAcceptServer(port, bd);
+		thread.add(new Thread(BAS));
+		BidCommand BC = new BidCommand(BAS,bd);
+		thread.add(new Thread(BC));
 		for(Thread a: thread){
 			a.start();
 		}

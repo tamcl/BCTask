@@ -12,6 +12,8 @@ class BidAcceptServer implements Runnable{
 	private InputStreamReader in;
 	private BufferedReader r;
 	
+	private boolean InAuction = false;
+	
 	public BidAcceptServer(int port, BidServer data) throws IOException{
 		this.port = port;
 		this.data = data;
@@ -39,11 +41,19 @@ class BidAcceptServer implements Runnable{
 	}
 	
 	private void processMessage(String[] message){
-		int code = Integer.parseInt(message[0]);
-		if(code==0){
-			addNameList(message);
-		}else if(code==1){
-			bidShout(message);
+		switch(message[0]){
+			case "0":
+				addNameList(message);
+				break;
+			case "1":
+				if(InAuction){
+					bidShout(message);
+				}else{
+					NotDuringAuction(message);
+				}
+				break;
+			case "9":
+				sendCurrentItem(message);
 		}
 	}
 	
@@ -51,29 +61,70 @@ class BidAcceptServer implements Runnable{
 		User newUser = new User(message[1]);
 		newUser.UpdateInfo(message[2],Integer.parseInt(message[3]));
 		data.addName(newUser);
-		System.out.println("-----[Server]-----");
-		System.out.println("Welcome "+ newUser.getName() + "!");
-		System.out.println("----------");
 		try{
-			new SendMessage(3, newUser.getIp(), newUser.getPort(), "User Entered Server");
+			new SendMessage(2, newUser.getIp(), newUser.getPort(), "");
+			if(InAuction){
+				new SendMessage(5,newUser.getIp(),newUser.getPort(),"");
+			}
 		}catch(Exception e){
 			System.out.println("message sent error");
 		}
 	}
 	
 	private void bidShout(String[] message){
-		System.out.println(message[4]);
-		try{
-			new SendMessage(3, message[2], Integer.parseInt(message[3]), "Bid Successful, Bid cost"+message[4]);
-		}catch(Exception e){
-			System.out.println("message sent error");
+		int Value = -1;
+		boolean number = true;
+		try{Value = Integer.parseInt(message[4]);}catch(Exception e){number=false;}
+		boolean success = false;
+		if(Value>data.getMinBid()&&Value>data.getHighestBid()){
+			success=true;
 		}
-		for(User a:data.getNameList()){
+		if(success==true&&number==true){
 			try{
-				new SendMessage(4, a.getIp(), a.getPort(), "Current Highest Bid: "+message[4]);
+				Bid newBid = new Bid(new User(message[1],message[2],Integer.parseInt(message[3])),Value);
+				data.addCurrentBid(newBid);
+				data.setHighestBid(newBid);
+				new SendMessage(3, message[2], Integer.parseInt(message[3]), message[4]);
 			}catch(Exception e){
-			System.out.println("something wrong");
+				System.out.println("message sent error");
+			}
+			for(User a:data.getNameList()){
+				try{
+					new SendMessage(4, a.getIp(), a.getPort(), "Current Highest Bid: "+message[4]);
+				}catch(Exception e){
+				System.out.println("something wrong");
+				}
+			}
+		}else{
+			try{
+				new SendMessage(8, message[2], Integer.parseInt(message[3]),"");
+			}catch(Exception e){
+				System.out.println("message sent error");
+			}
 		}
+			
+	}
+	
+	private void NotDuringAuction(String[] message){
+		try{
+			new SendMessage(7, message[2],Integer.parseInt(message[3]),"");
+		}catch(Exception e){
+			System.out.println("cannot send 'Not During Action' message to client.");
 		}
+		
+	}
+	
+	public void startAuction(){
+		InAuction = true;
+	}
+	
+	public void endAuction(){
+		InAuction = false;
+	}
+	
+	public void sendCurrentItem(String[] message){
+		try{
+			new SendMessage(10,message[2],Integer.parseInt(message[3]),data.getCurrentItem().getName()+"|"+Integer.toString(data.getCurrentItem().getMinPrice()));
+		}catch(Exception e){}
 	}
 }
