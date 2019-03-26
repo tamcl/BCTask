@@ -27,4 +27,12 @@ class Item{
 		return Name;
 	}
 	
+	public Bid getWinner(){
+		return finalBid;
+	}
+	
+	public ArrayList<Bid> getRecord(){
+		return Record;
+	}
+	
 }

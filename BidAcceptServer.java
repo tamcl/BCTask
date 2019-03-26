@@ -84,7 +84,7 @@ class BidAcceptServer implements Runnable{
 				Bid newBid = new Bid(new User(message[1],message[2],Integer.parseInt(message[3])),Value);
 				data.addCurrentBid(newBid);
 				data.setHighestBid(newBid);
-				new SendMessage(3, message[2], Integer.parseInt(message[3]), message[4]);
+				new SendMessage(3, message[2], Integer.parseInt(message[3]), message[4]+"|"+data.getCurrentItem().getName());
 			}catch(Exception e){
 				System.out.println("message sent error");
 			}

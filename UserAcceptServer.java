@@ -46,7 +46,7 @@ class UserAcceptServer implements Runnable{
 				WelcomeEnter();
 				break;
 			case "3":
-				BidSucceed(message[1]);
+				BidSucceed(message[1], message[2]);
 				break;
 			case "4":
 				UpdateBid(message[1]);
@@ -67,6 +67,9 @@ class UserAcceptServer implements Runnable{
 			case "10":
 				PrintCItem(message[1],message[2]);
 				break;
+			case "11":
+				WonItem();
+				break;
 		}
 	}
 	
@@ -74,9 +77,9 @@ class UserAcceptServer implements Runnable{
 		System.out.println("-----[Server]----- \nYou have successfully entered the lobby.\n------------------");
 	}
 	
-	private void BidSucceed(String m){
+	private void BidSucceed(String m,String name){
 		System.out.println("-----[Server]----- \nYou successfully bid "+m+".\n------------------");
-		data.addBid(new Bid(user, Integer.parseInt(m)));
+		data.addBid(new Bid(user, Integer.parseInt(m), name));
 	}
 	
 	private void UpdateBid(String m){
@@ -101,6 +104,10 @@ class UserAcceptServer implements Runnable{
 	
 	private void PrintCItem(String Name, String MinPrice){
 		System.out.println("-----[Server]----- \nCurrent auction item: "+Name+"\nMinimum bid:"+MinPrice+"\n------------------");
+	}
+	
+	private void WonItem(){
+		System.out.println("-----[Server]----- \nCongradulations You won the auction!!!!\n------------------");
 	}
 
 }

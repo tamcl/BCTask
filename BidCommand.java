@@ -45,7 +45,21 @@ class BidCommand implements Runnable{
 			case "LBOCI":
 				ListBidsOfCurrentItem();
 				break;
-			
+			case "CWBid":
+				CWBid();
+				break;
+			case "SAItem":
+				SAItem();
+				break;
+			case "FItemInfo":
+				FItemInfo();
+				break;
+			case "SAUser":
+				SAUser();
+				break;
+			case "FUserBid":
+				FUserBid();
+				break;
 		}
 		
 	}
@@ -55,6 +69,11 @@ class BidCommand implements Runnable{
 		System.out.println("startAuction \t set the Item then start auction");
 		System.out.println("endAuction \t end auction");
 		System.out.println("LBOCI \t List Bids Of Current Item");
+		System.out.println("CWBid \t print the current winning bid");
+		System.out.println("SAItem \t show all item");
+		System.out.println("FItemInfo \t Find Item information");
+		System.out.println("SAUser \t show all username");
+		System.out.println("FUserBid \t Find certain user's bidding history");
 		System.out.println("");
 	}
 	
@@ -97,5 +116,87 @@ class BidCommand implements Runnable{
 			count++;
 		}
 		System.out.println("----------");
+	}
+	
+	private void CWBid(){
+		Bid tempBid = BS.getHighestBidinBid();
+		System.out.println("-----[Current winning bid]-----");
+		System.out.println(tempBid.getBider().getName() + " has the highest bid.");
+		System.out.println("Bid: "+tempBid.getBidPrice());
+		System.out.println("-------------------------------");
+	}
+	
+	private void SAItem(){
+		System.out.println("-----[Item List]-----");
+		for(Item a: BS.getItemList()){
+			System.out.println(a.getName());
+		}
+		System.out.println("----------");
+	}
+	
+	private void FItemInfo(){
+		System.out.print("Enter item name: ");
+		String TargetName = scan.next();
+		boolean found = false;
+		Item temp = new Item("Sample", 0);
+		for(Item a: BS.getItemList()){
+			if(a.getName().equals(TargetName)){
+				found = true;
+				temp = a;
+				break;
+			}
+		}
+		if(found == false){
+			System.out.println("Error: item not found.");
+		}else{
+			try{
+				System.out.println("-----[Final bid]-----");
+				System.out.println("Winner: "+temp.getWinner().getBider().getName());
+				System.out.println("Bid: "+temp.getWinner().getBidPrice());
+				System.out.println("-----[Bid Record]-----");
+				int count = 1;
+				for(Bid a: temp.getRecord()){
+					System.out.println(count+". "+a.getBider().getName()+" bids "+a.getBidPrice());
+					count++;
+				}
+				System.out.println("----------");
+			}catch(Exception e){
+				
+			}
+		}
+	}
+	
+	private void SAUser(){
+		System.out.println("-----[User List]-----");
+		for(User a: BS.getNameList()){
+			System.out.println(a.getName());
+		}
+		System.out.println("----------");
+	}
+	
+	private void FUserBid(){
+		System.out.print("Enter User Name: ");
+		String TargetName = scan.next();
+		boolean found = false;
+		User temp = new User("Sample");
+		for(User a: BS.getNameList()){
+			if(a.getName().equals(TargetName)){
+				found = true;
+				temp = a;
+				break;
+			}
+		}
+		
+		if(found){
+			System.out.println("-----[Item user has bid]-----");
+			for(Item a: BS.getItemList()){
+				for(Bid b: a.getRecord()){
+					if(b.getBider().getName().equals(TargetName)){
+						System.out.println(a.getName());
+						break;
+					}
+				}
+			}
+		}
 	}
 }

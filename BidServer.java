@@ -43,6 +43,10 @@ class BidServer {
 		return highestBid.getBidPrice();
 	}
 	
+	public Bid getHighestBidinBid(){
+		return highestBid;
+	}
+	
 	public void setHighestBid(Bid highestBid){
 		this.highestBid = highestBid;
 	}
@@ -54,7 +58,17 @@ class BidServer {
 	public void wrapAuction(){
 		currentItem.updateBuyer(highestBid,currentBid);
 		ItemList.add(currentItem);
+		try{
+			new SendMessage(11, highestBid.getBider().getIp(),highestBid.getBider().getPort(),"");
+		}catch(Exception e){
+			
+		}
 	}
+	
+	public ArrayList<Item> getItemList(){
+		return ItemList;
+	}
+	
 	
 	
 }

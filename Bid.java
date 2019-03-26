@@ -1,12 +1,17 @@
 class Bid{
 	private User bider;
 	private int bidPrice;
-	//private String itemName;
+	private String itemName;
 	
-	public Bid(User bider, int bidPrice/*, String itemName*/){
+	public Bid(User bider, int bidPrice){
 		this.bider = bider;
 		this.bidPrice = bidPrice;
-		/*this.itemName = itemName;*/
+	}
+	
+	public Bid(User bider, int bidPrice, String itemName){
+		this.bider = bider;
+		this.bidPrice = bidPrice;
+		this.itemName = itemName;
 	}
 	
 	public Bid(int bidPrice){
@@ -24,6 +29,10 @@ class Bid{
 	
 	public int getBidPrice(){
 		return bidPrice;
+	}
+	
+	public String getItemName(){
+		return itemName;
 	}
  
 }

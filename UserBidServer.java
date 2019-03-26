@@ -35,13 +35,18 @@ class UserBidServer implements Runnable{
 					case "CItem":
 						CurrentItem();
 						break;
+					case "SABids":
+						SeeAllBids();
+						break;
 				}
 			}
 		}
 	}
 	
 	private void helpPage(){
-		System.out.println("You got to the help page");
+		System.out.println("");
+		System.out.println("CItem \t see current Item");
+		System.out.println("SABids \t see all bids");
 	}
 	
 	private void CurrentItem(){
@@ -50,5 +55,14 @@ class UserBidServer implements Runnable{
 		}catch(Exception e){
 			
 		}
+	}
+	
+	private void SeeAllBids(){
+		System.out.println("-----[Bidding record]-----");
+		int count = 1;
+		for(Bid a:data.getBidList()){
+			System.out.println(count + ". Bid: "+a.getBidPrice()+" on "+a.getItemName());
+		}
+		System.out.println("----------");
 	}
 }
