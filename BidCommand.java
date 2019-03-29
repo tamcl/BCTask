@@ -2,7 +2,9 @@ import java.net.*;
 import java.util.*;
 import java.io.*;
 import java.lang.*;
-
+/**
+ * A thread that accept command from the admins
+ */
 
 class BidCommand implements Runnable{
 	private BidAcceptServer BAS;
@@ -19,6 +21,7 @@ class BidCommand implements Runnable{
 	
 	private void startCommandRecieve(){
 		String command;
+		//a while true to accpet scanner
 		while(true){
 			command = scan.next();
 			try{
@@ -92,14 +95,18 @@ class BidCommand implements Runnable{
 			}
 		}
 	}
-	
+	/**
+	 * method to start an auction
+	 */
 	private void startAuction()throws IOException{
 		BAS.startAuction();
 		for(User user:BS.getNameList()){
 			new SendMessage(5,user.getIp(),user.getPort(),BS.getCurrentItem().getName()+"|"+Integer.toString(BS.getCurrentItem().getMinPrice()));
 		}
 	}
-	
+	/**
+	 * method to end an auction
+	 */
 	private void endAuction()throws IOException{
 		BAS.endAuction();
 		BS.wrapAuction();
@@ -107,7 +114,9 @@ class BidCommand implements Runnable{
 			new SendMessage(6,user.getIp(),user.getPort(),"");
 		}
 	}
-	
+	/**
+	 * method to show the list of bids of the current item or the most recent item
+	 */
 	private void ListBidsOfCurrentItem(){
 		System.out.println("-----[Bidding List]-----");
 		int count = 1;
@@ -117,7 +126,9 @@ class BidCommand implements Runnable{
 		}
 		System.out.println("----------");
 	}
-	
+	/**
+	 * method to show the current winning user and it's bid
+	 */
 	private void CWBid(){
 		Bid tempBid = BS.getHighestBidinBid();
 		System.out.println("-----[Current winning bid]-----");
@@ -125,7 +136,9 @@ class BidCommand implements Runnable{
 		System.out.println("Bid: "+tempBid.getBidPrice());
 		System.out.println("-------------------------------");
 	}
-	
+	/**
+	 * method to show all the items that was in the auction
+	 */
 	private void SAItem(){
 		System.out.println("-----[Item List]-----");
 		for(Item a: BS.getItemList()){
@@ -133,7 +146,9 @@ class BidCommand implements Runnable{
 		}
 		System.out.println("----------");
 	}
-	
+	/**
+	 * method that will return the item information when item name was entered
+	 */
 	private void FItemInfo(){
 		System.out.print("Enter item name: ");
 		String TargetName = scan.next();
@@ -165,7 +180,9 @@ class BidCommand implements Runnable{
 			}
 		}
 	}
-	
+	/**
+	 * method to show all the users entered the server
+	 */
 	private void SAUser(){
 		System.out.println("-----[User List]-----");
 		for(User a: BS.getNameList()){
@@ -173,7 +190,9 @@ class BidCommand implements Runnable{
 		}
 		System.out.println("----------");
 	}
-	
+	/**
+	 * method to show all the items that the user has bid when the user name was entered
+	 */
 	private void FUserBid(){
 		System.out.print("Enter User Name: ");
 		String TargetName = scan.next();

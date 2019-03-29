@@ -2,7 +2,9 @@ import java.lang.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-
+/**
+ * A class that accepts sockets from the server and do different commands depending on what the server gives in order.
+ */ 
 class UserAcceptServer implements Runnable{
 
 	private ServerSocket ss;
@@ -28,7 +30,9 @@ class UserAcceptServer implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * constantly accepting sockets and process the message
+	 */
 	public void startServer() throws IOException{
 		while(true){
 			s = ss.accept();

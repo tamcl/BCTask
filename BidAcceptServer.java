@@ -2,7 +2,9 @@ import java.lang.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-
+/**
+ * A thread that accepts sockets from the users to do commands
+ */
 class BidAcceptServer implements Runnable{
 	private ServerSocket ss;
 	private static int port;
@@ -56,12 +58,15 @@ class BidAcceptServer implements Runnable{
 				sendCurrentItem(message);
 		}
 	}
-	
+	/**
+	 * method to add Name List when new user entered
+	 */
 	private void addNameList(String[] message){
 		User newUser = new User(message[1]);
 		newUser.UpdateInfo(message[2],Integer.parseInt(message[3]));
 		data.addName(newUser);
 		try{
+			//to tell if the user has successfully entered the server
 			new SendMessage(2, newUser.getIp(), newUser.getPort(), "");
 			if(InAuction){
 				new SendMessage(5,newUser.getIp(),newUser.getPort(),"");
@@ -70,7 +75,9 @@ class BidAcceptServer implements Runnable{
 			System.out.println("message sent error");
 		}
 	}
-	
+	/**
+	 * When a bid is placed this method is triggered
+	 */
 	private void bidShout(String[] message){
 		int Value = -1;
 		boolean number = true;
@@ -79,17 +86,21 @@ class BidAcceptServer implements Runnable{
 		if(Value>data.getMinBid()&&Value>data.getHighestBid()){
 			success=true;
 		}
+		//if bid is a number and if the bid is higher than the last bid
+		//then update all the current bid and update winning bidder and record of bids
 		if(success==true&&number==true){
 			try{
 				Bid newBid = new Bid(new User(message[1],message[2],Integer.parseInt(message[3])),Value);
 				data.addCurrentBid(newBid);
 				data.setHighestBid(newBid);
+				//to tell when bid success
 				new SendMessage(3, message[2], Integer.parseInt(message[3]), message[4]+"|"+data.getCurrentItem().getName());
 			}catch(Exception e){
 				System.out.println("message sent error");
 			}
 			for(User a:data.getNameList()){
 				try{
+					//to tell the current highest bid
 					new SendMessage(4, a.getIp(), a.getPort(), "Current Highest Bid: "+message[4]);
 				}catch(Exception e){
 				System.out.println("something wrong");
@@ -97,6 +108,7 @@ class BidAcceptServer implements Runnable{
 			}
 		}else{
 			try{
+				//to tell that the bid is invalid
 				new SendMessage(8, message[2], Integer.parseInt(message[3]),"");
 			}catch(Exception e){
 				System.out.println("message sent error");
@@ -104,9 +116,12 @@ class BidAcceptServer implements Runnable{
 		}
 			
 	}
-	
+	/**
+	 * method when bid is places but not during auction
+	 */
 	private void NotDuringAuction(String[] message){
 		try{
+			//to tell user that is not during auction
 			new SendMessage(7, message[2],Integer.parseInt(message[3]),"");
 		}catch(Exception e){
 			System.out.println("cannot send 'Not During Action' message to client.");
@@ -121,7 +136,9 @@ class BidAcceptServer implements Runnable{
 	public void endAuction(){
 		InAuction = false;
 	}
-	
+	/**
+	 * method to send current item information to users
+	 */
 	public void sendCurrentItem(String[] message){
 		try{
 			new SendMessage(10,message[2],Integer.parseInt(message[3]),data.getCurrentItem().getName()+"|"+Integer.toString(data.getCurrentItem().getMinPrice()));

@@ -13,7 +13,9 @@ class UserServer{
 	private static UserData data = new UserData();
 	private static ArrayList<Thread> thread = new ArrayList<Thread>();
 
-	
+	/**
+	 * Main method of user
+	 */
 	public static void main(String args[]) throws UnknownHostException, IOException{
 		enterPersonalData();
 		enterServer();
@@ -25,6 +27,9 @@ class UserServer{
 		
 	}
 	
+	/**
+	 * method to create User
+	 */
 	private static void enterPersonalData(){
 		System.out.print("Enter Name:");
 		String[] Name = sc.nextLine().split(" ");
@@ -37,6 +42,9 @@ class UserServer{
 		user = new User(fullName);
 	}
 	
+	/**
+	 * method to settle servers
+	 */
 	private static void enterServer(){
 		System.out.print("Enter bidserver ip address:");
 		ip = sc.next();

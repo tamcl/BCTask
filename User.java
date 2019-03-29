@@ -1,3 +1,7 @@
+/**
+ * A class that stores information of a user
+ */
+
 class User{
 	private int port;
 	private String Name, ip;

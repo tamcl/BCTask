@@ -1,3 +1,7 @@
+/**
+ * A class that stores the data of a bid
+ */
+
 class Bid{
 	private User bider;
 	private int bidPrice;

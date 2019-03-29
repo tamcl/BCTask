@@ -1,5 +1,7 @@
 import java.util.Scanner;
-
+/**
+ * A thread that recieve commands in system and updates data when required
+ */
 class UserBidServer implements Runnable{
 	private Scanner sc = new Scanner(System.in);
 	private UserData data;

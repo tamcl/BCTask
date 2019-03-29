@@ -2,7 +2,9 @@ import java.util.*;
 import java.lang.*;
 import java.io.*;
 import java.net.*;
-
+/**
+ * A class act as the storage of the server updates the list of users and items
+ */
 class BidServer {
 	private ArrayList<User> NameList = new ArrayList<User>();
 	private ArrayList<Item> ItemList = new ArrayList<Item>();
@@ -20,7 +22,9 @@ class BidServer {
 	public ArrayList<User> getNameList(){
 		return NameList;
 	}
-	
+	/**
+	 * clear up the tempory variable
+	 */
 	public void setCurrentItem(Item item){
 		currentItem = item;
 		currentBid = new ArrayList<Bid>();
@@ -54,7 +58,9 @@ class BidServer {
 	public ArrayList<Bid> getCurrentBidList(){
 		return currentBid;
 	}
-	
+	/**
+	 * a method when an auction has ended
+	 */
 	public void wrapAuction(){
 		currentItem.updateBuyer(highestBid,currentBid);
 		ItemList.add(currentItem);
