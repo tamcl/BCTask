@@ -12,3 +12,5 @@ StartUser --> start an user (multiple users)
 	5. enter user port (a port different to the server and other users)
 	6. type help for commands
 	
+if you want to know more please visit youtube video I made https://youtu.be/S6rhEbG92mc
+	
